@@ -1,27 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
-import { AUTH_TOKEN } from "./constants";
+import { getTokenFromCookie, getJwtSecret, encodeSecret } from "./utils/auth";
 
 /**
  * Middleware for verifying JWT token for authentication.
  */
-export async function middleware(request: NextRequest): Promise<NextResponse> {
-  const tokenJwt = request.cookies.get(AUTH_TOKEN);
+export async function middleware(request: Request): Promise<NextResponse> {
+  const tokenJwt = getTokenFromCookie();
+
   if (!tokenJwt) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const redirectUrl = new URL("/login", request.url);
+    return NextResponse.redirect(redirectUrl.toString());
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    console.error("JWT_SECRET is not defined in the environment variables");
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
+  const jwtSecret = getJwtSecret();
+
+  if (typeof jwtSecret !== "string") {
+    return jwtSecret;
   }
 
   try {
-    await jwtVerify(tokenJwt.value, new TextEncoder().encode(jwtSecret));
+    await jwtVerify(tokenJwt, encodeSecret(jwtSecret));
     return NextResponse.next();
   } catch (error) {
     console.error(error);
@@ -30,5 +29,5 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: ["/dashboard/:path*"],
 };

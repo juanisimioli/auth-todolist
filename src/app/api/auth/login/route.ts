@@ -1,11 +1,11 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import db from "@/libs/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { AUTH_TOKEN, DAYS_30 } from "@/constants";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const data = await request.json();
 

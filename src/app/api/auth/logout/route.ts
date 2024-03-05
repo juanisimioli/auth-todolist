@@ -1,12 +1,13 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { verify } from "jsonwebtoken";
 import { serialize } from "cookie";
 import { AUTH_TOKEN } from "@/constants";
+import { getTokenFromCookie, getJwtSecret } from "@/utils/auth";
 
-export async function POST(request: NextRequest) {
-  const token = request.cookies.get(AUTH_TOKEN);
+export async function POST() {
+  const tokenJwt = getTokenFromCookie();
 
-  if (!token) {
+  if (!tokenJwt) {
     return NextResponse.json(
       {
         message: "Auth token is required",
@@ -15,8 +16,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const jwtSecret = getJwtSecret();
+
+  if (typeof jwtSecret !== "string") {
+    return jwtSecret;
+  }
+
   try {
-    verify(token.value, process.env.JWT_SECRET as string);
+    verify(tokenJwt, jwtSecret);
 
     const serialized = serialize(AUTH_TOKEN, "", {
       httpOnly: true,
@@ -26,7 +33,7 @@ export async function POST(request: NextRequest) {
       path: "/",
     });
 
-    const response: NextResponse = NextResponse.json({ status: 204 });
+    const response = NextResponse.json({ message: "Logout successful" });
 
     response.headers.set("Set-Cookie", serialized);
 
