@@ -13,10 +13,12 @@
     "db:seed": "npx dotenv -e .env.local -- prisma db seed",
     "prisma:generate": "npx dotenv -e .env.local -- prisma generate",
     "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
-    "production:build": "npx prisma generate && npx prisma migrate deploy && next build"
+    "production:build": "npx prisma generate && npx prisma migrate deploy && next build",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",
+    "@vercel/postgres": "^0.8.0",
     "bcrypt": "^5.1.1",
     "cookie": "^0.6.0",
     "jose": "^5.2.2",
