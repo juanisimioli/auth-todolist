@@ -3,7 +3,7 @@ import { jwtVerify } from "jose";
 import { getTokenFromCookie, getJwtSecret, encodeSecret } from "./utils/auth";
 
 /**
- * Middleware for verifying JWT token for authentication.
+ * Middleware for verifying JWT tokens for authentication.
  */
 export async function middleware(request: Request): Promise<NextResponse> {
   const tokenJwt = getTokenFromCookie();
@@ -13,11 +13,13 @@ export async function middleware(request: Request): Promise<NextResponse> {
     return NextResponse.redirect(redirectUrl.toString());
   }
 
-  const jwtSecret = getJwtSecret();
+  const res = getJwtSecret();
 
-  if (typeof jwtSecret !== "string") {
-    return jwtSecret;
+  if (!res.success) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
+
+  const jwtSecret = res.data as string;
 
   try {
     await jwtVerify(tokenJwt, encodeSecret(jwtSecret));
