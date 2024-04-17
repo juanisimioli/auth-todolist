@@ -2,13 +2,12 @@ import db from "@/libs/db";
 import { userIdFromCookies } from "@/utils/auth";
 import { UserWithNotes } from "@/interfaces/interfaces";
 import ButtonLogOut from "./ButtonLogOut";
-import { redirect } from "next/navigation";
 
 const NavigationBar = async () => {
   const res = await userIdFromCookies();
 
   if (!res.success) {
-    return;
+    return null;
   }
 
   const userId = res.data;
