@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="fixed my-2 bottom-0 left-0 w-full h-8 flex justify-center gap-6 flex-row">
+    <footer className="fixed pb-2 bg-black bottom-0 left-0 w-full h-8 flex justify-center gap-6 flex-row">
       <Link href="https://www.linkedin.com/in/juanisimioli/" target="_blank">
         <svg
           className="cursor-pointer w-6 fill-gray-500 hover:fill-gray-300 transition duration-300"
