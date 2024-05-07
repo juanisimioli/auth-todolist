@@ -1,12 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { getTokenFromCookie, getJwtSecret, encodeSecret } from "./utils/auth";
 
 /**
  * Middleware for verifying JWT tokens for authentication.
  */
-export async function middleware(request: Request): Promise<NextResponse> {
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   const tokenJwt = getTokenFromCookie();
+
+  const ip = request.ip;
+  const city = request?.geo?.city;
+  const country = request?.geo?.country;
+  const region = request?.geo?.region;
+
+  console.log({ ip, city, country, region });
 
   if (!tokenJwt) {
     const redirectUrl = new URL("/login", request.url);
