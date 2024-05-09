@@ -2,7 +2,7 @@ import { logInfo } from "./middleware/logInfo";
 
 export async function middleware(request) {
   try {
-    logInfo(request);
+    await logInfo(request);
   } catch (e) {
     console.log("MIDDLEWARE", e);
   }
