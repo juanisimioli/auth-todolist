@@ -30,8 +30,8 @@ export const logInfo = async (request) => {
     } catch (error) {
       console.error("loginInfo middleware ERROR", error?.message);
     } finally {
-      NextResponse.next();
       console.log("FINALLY");
+      return NextResponse.next();
     }
   }
 };
