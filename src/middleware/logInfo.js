@@ -7,7 +7,7 @@ import { isTest } from "../api/is";
  * https://nextjs.org/docs/app/api-reference/functions/next-request
  */
 
-const logInfoPathnames = ["/home/"];
+const logInfoPathnames = ["/home"];
 
 export const logInfo = async (request) => {
   // if (process.env.NODE_ENV === 'development') return;
