@@ -1,11 +1,7 @@
 import { logInfo } from "./middleware/logInfo";
 
 export async function middleware(request) {
-  try {
-    await logInfo(request);
-  } catch (e) {
-    console.log("MIDDLEWARE", e);
-  }
+  await logInfo(request);
 }
 
 export const config = {

@@ -17,16 +17,16 @@ export const logInfo = async (request) => {
 
   if (logInfoPathnames.includes(pathname)) {
     const body = {
-      section: `${pathname} - TEST JUANI 3`,
-      ip: request.ip,
-      country: request.geo?.country,
-      state: `${request.geo?.region}-${request.geo?.city}`,
+      section: `TEST JUANI 3`,
+      ip: "192.168.1.7",
+      country: "ARG",
+      state: `BUE`,
     };
 
     try {
       console.log("try");
       const res = await isTest(body);
-      console.log("RES!!!", res.status);
+      console.log("RES!!!", res);
     } catch (error) {
       console.error("loginInfo middleware ERROR", error?.message);
     } finally {
